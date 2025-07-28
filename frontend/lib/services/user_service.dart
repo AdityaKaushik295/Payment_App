@@ -5,7 +5,7 @@ import '../models/user.dart';
 import 'auth_service.dart';
 
 class UserService extends ChangeNotifier {
-  static const String baseUrl = 'http://localhost:3000/api';
+  static const String baseUrl = 'https://payment-dashboard-backend-kti6.onrender.com//api';
   
   AuthService? _authService;
   List<User> _users = [];

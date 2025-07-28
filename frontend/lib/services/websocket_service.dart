@@ -5,7 +5,7 @@ import '../models/payment.dart';
 import '../models/dashboard_stats.dart';
 
 class WebSocketService extends ChangeNotifier {
-  static const String serverUrl = 'http://localhost:3000'; // ⚠️ Use IP if testing on physical device
+  static const String serverUrl = 'https://payment-dashboard-backend-kti6.onrender.com/'; // ⚠️ Use IP if testing on physical device
 
   IO.Socket? _socket;
   bool _isConnected = false;
