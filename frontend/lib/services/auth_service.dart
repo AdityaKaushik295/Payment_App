@@ -6,7 +6,7 @@ import '../models/user.dart';
 import '../models/login_response.dart';
 
 class AuthService extends ChangeNotifier {
-  static const String baseUrl = 'https://payment-dashboard-backend-kti6.onrender.com/api';
+  static const String baseUrl = 'https://payment-dashboard-frontend-e1hk.onrender.com/api';
   static const String tokenKey = 'auth_token';
 
   User? _currentUser;

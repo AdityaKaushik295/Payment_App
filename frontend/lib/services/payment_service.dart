@@ -7,7 +7,7 @@ import '../models/dashboard_stats.dart';
 import 'auth_service.dart';
 
 class PaymentService extends ChangeNotifier {
-  static const String baseUrl = 'https://payment-dashboard-backend-kti6.onrender.com/api';
+  static const String baseUrl = 'https://payment-dashboard-frontend-e1hk.onrender.com/api';
 
   AuthService? _authService;
   List<Payment> _payments = [];
