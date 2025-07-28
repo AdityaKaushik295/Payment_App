@@ -14,6 +14,7 @@ export class AuthController {
     console.log('🔐 AuthController: Login request for:', loginDto.username);
     const result = await this.authService.login(loginDto);
     console.log('✅ AuthController: Login successful, token generated');
+    console.log('🧾 Returning response:', result); // 👈 add this line
     return res.status(200).json(result);  // 👈 force JSON return
   }
 
