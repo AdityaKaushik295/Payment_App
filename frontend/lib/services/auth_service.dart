@@ -61,10 +61,10 @@ class AuthService extends ChangeNotifier {
     try {
       debugPrint('Validating token and loading profile...');
       debugPrint('Using token: ${_token!.substring(0, 50)}...');
-      
+
       final headers = authHeaders;
       debugPrint('Profile request headers: $headers');
-      
+
       final response = await http.get(
         Uri.parse('$baseUrl/auth/profile'),
         headers: headers,
@@ -93,7 +93,7 @@ class AuthService extends ChangeNotifier {
     _setLoading(true);
     try {
       debugPrint('Attempting login for user: $username');
-      
+
       final response = await http.post(
         Uri.parse('$baseUrl/auth/login'),
         headers: {'Content-Type': 'application/json'},
@@ -111,12 +111,10 @@ class AuthService extends ChangeNotifier {
         _token = loginResponse.access_token;
         _currentUser = loginResponse.user;
 
-        // Debug the received token
         debugPrint('Received token length: ${_token!.length}');
         debugPrint('Token structure check - starts with: ${_token!.substring(0, 20)}');
         debugPrint('Full token: $_token');
 
-        // Save token to persistent storage
         await _saveTokenToStorage(_token!);
 
         debugPrint('Login successful. Token saved. User: ${_currentUser?.username}');
@@ -155,7 +153,7 @@ class AuthService extends ChangeNotifier {
   Future<void> _clearAuthData() async {
     _token = null;
     _currentUser = null;
-    
+
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove(tokenKey);
@@ -174,7 +172,7 @@ class AuthService extends ChangeNotifier {
     final headers = <String, String>{
       'Content-Type': 'application/json',
     };
-    
+
     if (_token != null) {
       final bearerToken = 'Bearer $_token';
       headers['Authorization'] = bearerToken;
@@ -183,14 +181,13 @@ class AuthService extends ChangeNotifier {
     } else {
       debugPrint('Warning: Creating auth headers without token');
     }
-    
+
     return headers;
   }
 
-  // Method to refresh token if needed
   Future<bool> refreshAuthIfNeeded() async {
     if (!isAuthenticated) return false;
-    
+
     try {
       await _validateAndLoadProfile();
       return isAuthenticated;
@@ -200,7 +197,6 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  // Method to decode and inspect JWT token
   void debugToken() {
     if (_token == null) {
       debugPrint('No token to debug');
@@ -208,22 +204,19 @@ class AuthService extends ChangeNotifier {
     }
 
     try {
-      // JWT tokens have 3 parts separated by dots
       final parts = _token!.split('.');
       debugPrint('Token parts count: ${parts.length}');
-      
+
       if (parts.length == 3) {
-        // Decode the payload (second part)
         final payload = parts[1];
-        // Add padding if needed for base64 decoding
         final normalizedPayload = base64Url.normalize(payload);
         final decoded = utf8.decode(base64Url.decode(normalizedPayload));
         debugPrint('Token payload: $decoded');
-        
+
         final payloadJson = json.decode(decoded);
         final exp = payloadJson['exp'];
         final iat = payloadJson['iat'];
-        
+
         if (exp != null) {
           final expDate = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
           final now = DateTime.now();
@@ -232,7 +225,7 @@ class AuthService extends ChangeNotifier {
           debugPrint('Token is expired: ${now.isAfter(expDate)}');
           debugPrint('Time until expiry: ${expDate.difference(now).inMinutes} minutes');
         }
-        
+
         if (iat != null) {
           final iatDate = DateTime.fromMillisecondsSinceEpoch(iat * 1000);
           debugPrint('Token issued at: $iatDate');
@@ -241,5 +234,18 @@ class AuthService extends ChangeNotifier {
     } catch (e) {
       debugPrint('Error decoding token: $e');
     }
+  }
+
+  // 🟨 Add these reusable authenticated request methods (optional helper)
+  Future<http.Response> getAuthenticated(String endpoint) {
+    return http.get(Uri.parse('$baseUrl/$endpoint'), headers: authHeaders);
+  }
+
+  Future<http.Response> postAuthenticated(String endpoint, Map<String, dynamic> body) {
+    return http.post(
+      Uri.parse('$baseUrl/$endpoint'),
+      headers: authHeaders,
+      body: json.encode(body),
+    );
   }
 }
