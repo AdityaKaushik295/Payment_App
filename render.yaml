@@ -1,23 +1,36 @@
-envVars:
-  - key: DB_HOST
-    fromDatabase:
-      name: payment_dashboard_db
-      property: host
-  - key: DB_PORT
-    fromDatabase:
-      name: payment_dashboard_db
-      property: port
-  - key: DB_USERNAME
-    fromDatabase:
-      name: payment_dashboard_db
-      property: user
-  - key: DB_PASSWORD
-    fromDatabase:
-      name: payment_dashboard_db
-      property: password
-  - key: DB_NAME
-    fromDatabase:
-      name: payment_dashboard_db
-      property: database
-  - key: JWT_SECRET
-    value: your_secret_here
+services:
+  - type: web
+    name: payment-dashboard-backend
+    env: node
+    plan: free
+    region: oregon
+    rootDir: backend
+    buildCommand: yarn install && yarn build
+    startCommand: yarn start:prod
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: payment_dashboard_db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: payment_dashboard_db
+          property: port
+      - key: DB_USERNAME
+        fromDatabase:
+          name: payment_dashboard_db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: payment_dashboard_db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: payment_dashboard_db
+          property: database
+      - key: JWT_SECRET
+        value: your_jwt_secret_here
+
+databases:
+  - name: payment_dashboard_db
+    plan: free
