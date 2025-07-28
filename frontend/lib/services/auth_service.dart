@@ -106,20 +106,25 @@ class AuthService extends ChangeNotifier {
       debugPrint('Login response status: ${response.statusCode}');
       debugPrint('Login response body: ${response.body}');
 
-      if (response.statusCode == 201) {
-        final loginResponse = LoginResponse.fromJson(json.decode(response.body));
-        _token = loginResponse.access_token;
-        _currentUser = loginResponse.user;
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final body = response.body;
+        if (body.isNotEmpty) {
+          final loginResponse = LoginResponse.fromJson(json.decode(body));
+          _token = loginResponse.access_token;
+          _currentUser = loginResponse.user;
 
-        debugPrint('Received token length: ${_token!.length}');
-        debugPrint('Token structure check - starts with: ${_token!.substring(0, 20)}');
-        debugPrint('Full token: $_token');
+          debugPrint('Received token length: ${_token!.length}');
+          debugPrint('Token structure check - starts with: ${_token!.substring(0, 20)}');
+          debugPrint('Full token: $_token');
 
-        await _saveTokenToStorage(_token!);
-
-        debugPrint('Login successful. Token saved. User: ${_currentUser?.username}');
-        notifyListeners();
-        return true;
+          await _saveTokenToStorage(_token!);
+          debugPrint('Login successful. Token saved. User: ${_currentUser?.username}');
+          notifyListeners();
+          return true;
+        } else {
+          debugPrint("🚨 Login response body is empty even though status is ${response.statusCode}");
+          return false;
+        }
       } else {
         debugPrint('Login failed with status: ${response.statusCode}');
         final errorBody = response.body;
