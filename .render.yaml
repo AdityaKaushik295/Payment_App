@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: payment-dashboard-backend
+    env: node
+    plan: free
+    branch: main  # or your branch name
+    rootDir: payment-dashboard-backend     # set to backend folder if you're using a monorepo
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DB_HOST
+        value: YOUR_DB_HOST
+      - key: DB_PORT
+        value: 5432
+      - key: DB_USERNAME
+        value: YOUR_DB_USERNAME
+      - key: DB_PASSWORD
+        value: YOUR_DB_PASSWORD
+      - key: DB_NAME
+        value: payment_dashboard
+      - key: JWT_SECRET
+        value: your_jwt_secret
