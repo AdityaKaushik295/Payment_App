@@ -1,19 +1,20 @@
 // src/auth/auth.controller.ts
-import { Controller, Post, Body, UseGuards, Get, Request } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Request, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { Response } from 'express';  // 👈
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() loginDto: LoginDto) {
+  async login(@Body() loginDto: LoginDto, @Res() res: Response) {
     console.log('🔐 AuthController: Login request for:', loginDto.username);
     const result = await this.authService.login(loginDto);
     console.log('✅ AuthController: Login successful, token generated');
-    return result;
+    return res.status(200).json(result);  // 👈 force JSON return
   }
 
   @UseGuards(JwtAuthGuard)
@@ -23,13 +24,11 @@ export class AuthController {
     return req.user;
   }
 
-  // Test endpoint to verify JWT is working
   @UseGuards(JwtAuthGuard)
   @Get('test')
   testAuth(@Request() req) {
-    console.log('🧪 AuthController: Test auth endpoint accessed by:', req.user?.username);
-    return { 
-      message: 'Authentication successful', 
+    return {
+      message: 'Authentication successful',
       user: req.user,
       timestamp: new Date().toISOString()
     };
