@@ -30,15 +30,6 @@ services:
           property: database
       - key: JWT_SECRET
         value: your_jwt_secret_here
-  - type: static
-    name: payment-dashboard-frontend
-    rootDir: frontend/build/web
-    buildCommand: ""     # No build needed if already built
-    staticPublishPath: "."
-    headers:
-      - path: /*
-        name: Access-Control-Allow-Origin
-        value: "*"
 databases:
   - name: payment_dashboard_db
     plan: free
