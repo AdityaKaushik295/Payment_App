@@ -1,0 +1,23 @@
+envVars:
+  - key: DB_HOST
+    fromDatabase:
+      name: payment_dashboard_db
+      property: host
+  - key: DB_PORT
+    fromDatabase:
+      name: payment_dashboard_db
+      property: port
+  - key: DB_USERNAME
+    fromDatabase:
+      name: payment_dashboard_db
+      property: user
+  - key: DB_PASSWORD
+    fromDatabase:
+      name: payment_dashboard_db
+      property: password
+  - key: DB_NAME
+    fromDatabase:
+      name: payment_dashboard_db
+      property: database
+  - key: JWT_SECRET
+    value: your_secret_here
