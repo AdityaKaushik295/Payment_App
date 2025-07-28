@@ -8,7 +8,7 @@ async function bootstrap() {
   
   // Enable CORS for Flutter frontend with more specific settings
   app.enableCors({
-    origin: '*',
+    origin: 'https://payment-dashboard-frontend-e1hk.onrender.com',
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
     credentials: true,
@@ -26,8 +26,5 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  console.log(`🚀 Payment Dashboard Backend running on port ${port}`);
-  console.log(`📋 API Base URL: http://localhost:${port}/api`);
-  console.log(`🔑 JWT Secret: ${process.env.JWT_SECRET ? 'LOADED' : 'USING DEFAULT'}`);
 }
 bootstrap();
