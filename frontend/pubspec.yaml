@@ -1,0 +1,65 @@
+name: fullstack_payment_dashboard
+description: A Flutter Payment Dashboard System
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # HTTP client
+  http: ^1.1.0
+  
+  # State management
+  provider: ^6.0.5
+  
+  # Local storage for JWT
+  shared_preferences: ^2.2.2
+  
+  # Charts
+  fl_chart: ^0.65.0
+  
+  # JSON serialization
+  json_annotation: ^4.9.0
+  
+  # Date formatting
+  intl: ^0.18.1
+  
+  # WebSocket client
+  socket_io_client: ^2.0.3+1
+  
+  # UI components
+  cupertino_icons: ^1.0.2
+  
+  # File handling
+  path_provider: ^2.1.1
+  
+  # CSV export
+  csv: ^5.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  
+  # JSON code generation
+  json_serializable: ^6.7.1
+  build_runner: ^2.4.7
+  
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/icons/
+  
+  # fonts:
+  #   - family: Roboto
+  #     fonts:
+  #       - asset: fonts/Roboto-Regular.ttf
+  #       - asset: fonts/Roboto-Bold.ttf
+  #         weight: 700
