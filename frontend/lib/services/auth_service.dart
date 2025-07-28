@@ -109,6 +109,9 @@ class AuthService extends ChangeNotifier {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final body = response.body;
         if (body.isNotEmpty) {
+          debugPrint("Parsing login response JSON...");
+          final parsed = json.decode(body);
+          debugPrint("Decoded JSON: $parsed");
           final loginResponse = LoginResponse.fromJson(json.decode(body));
           _token = loginResponse.access_token;
           _currentUser = loginResponse.user;
